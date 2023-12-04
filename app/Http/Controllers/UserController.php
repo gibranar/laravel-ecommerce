@@ -21,6 +21,12 @@ class UserController extends Controller
         return view('users.index', compact('users', 'roles'));
     }
 
+    public function showUser()
+    {
+        $users = User::first();
+        return view('auth.register', ['users' => $users]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

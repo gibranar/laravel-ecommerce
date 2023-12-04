@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,10 +32,8 @@ Route::get('/gibran', function () {
     ]);
 });
 
-Route::redirect('/huda', '/gibran');
-
-Route::view('/tes', 'testing', ['name' => 'Gibran']);
-
+Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
+Route::get('/register', [UserController::class, 'showUser'])->name('register');
 
 
 Route::get('/', function () {
@@ -47,7 +46,7 @@ Route::middleware(['auth', 'permission:view-dashboard'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-Route::middleware(['auth', 'permission:product-list'])->controller(ProductController::class)->group(function(){
+Route::middleware(['auth', 'permission:product-list'])->controller(ProductController::class)->group(function () {
     Route::get('/products', 'index')->name('products.index');
 });
 
@@ -70,9 +69,9 @@ Route::resource('faq', FaqController::class)->except(['create', 'edit'])->middle
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
-    Route::post('/login','postLogin')->name('login');
+    Route::post('/login', 'postLogin')->name('login');
 
-    
+
     Route::get('/logout', 'logout')->name('logout');
 });
 
