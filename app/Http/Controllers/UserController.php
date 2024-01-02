@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -45,23 +46,29 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
         ]);
-        $user->assignRole($request->role);
 
-        return redirect()->route('users.index')
+        UserDetail::create([
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
+
+        $user->assignRole('user');
+
+        return redirect()->route('auth.login')
             ->with('success', 'User created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -102,7 +109,7 @@ class UserController extends Controller
 
         $user->update($request->only('name', 'email'));
         $user->syncRoles($request->role);
-        
+
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }

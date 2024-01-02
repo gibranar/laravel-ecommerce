@@ -27,7 +27,6 @@ Products
                         <div class="card-header-form">
                             <div>
                                 @can('product-create')
-                                <!-- <a class="btn btn-primary" href="{{ route('products.create') }}"> Create New Product</a> -->
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#create-product-modal">
                                     <i class="fas fa-plus"></i> Create New Product</button>
                                 @endcan

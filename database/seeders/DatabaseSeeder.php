@@ -21,7 +21,9 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            UserDetailSeeder::class,
             FaqSeeder::class,
+            CategorySeeder::class,
         ]);
         Category::factory(10)->has(Product::factory(10))->create();
         // \App\Models\User::factory(10)->create();

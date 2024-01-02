@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserDetailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +33,9 @@ Route::get('/gibran', function () {
     ]);
 });
 
-Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
+Route::get('/profile', [UserDetailController::class, 'index'])->name('profile.index');
+Route::post('/profile/update', [UserDetailController::class, 'updateProfile'])->name('profile.update');
+
 Route::get('/register', [UserController::class, 'showUser'])->name('register');
 
 
@@ -83,3 +86,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
+
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('auth.login');
